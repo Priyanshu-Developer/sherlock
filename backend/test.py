@@ -11,6 +11,7 @@ DB_CONFIG = {
     'password': os.getenv('DB_PASSWORD'),
     'database': os.getenv('DB_DATABASE')
 }
+ins =""
 
 # Paste all your INSERT statements here as a string
 insert_queries = """
