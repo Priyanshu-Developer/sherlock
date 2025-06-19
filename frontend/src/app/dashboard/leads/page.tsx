@@ -14,7 +14,10 @@ export default function LeadsPage() {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const response = await axios.get<Lead[]>('http://localhost:5000/leads/all');
+        const response = await axios.get<Lead[]>('http://localhost:5000/leads/all', {
+          withCredentials: true, // ⬅️ This sends cookies like `auth_token`
+        });
+
         setLeads(response.data);
       } catch (err) {
         console.error("Error fetching leads:", err);

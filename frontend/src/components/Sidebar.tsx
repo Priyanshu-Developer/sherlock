@@ -20,6 +20,7 @@ import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/utils/AuthContext';
 
 interface TogglerProps {
   defaultExpanded?: boolean;
@@ -66,6 +67,7 @@ interface CustomMenuProps {
 }
 
 export const CustomMenu: React.FC<CustomMenuProps> = ({menu,currentPath}) => {
+  
   const renderMenuItems = (items: MenuProps[]) => {
     return items.map((item, index) => {
       const isSelected = currentPath === item.segment;
@@ -128,6 +130,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({menuItems}: SidebarProps) {
+  const {admin,logout} = useAuth();
+  console.log(admin)
   const currentPath = usePathname();
   return (
     <Sheet
@@ -207,12 +211,12 @@ export default function Sidebar({menuItems}: SidebarProps) {
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Avatar variant="outlined" size="sm" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"/>
+        <Avatar variant="outlined" size="sm" alt={admin?.username} />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="title-sm">{admin?.username.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ")}</Typography>
+          <Typography level="body-xs">{admin?.email}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton size="sm" variant="plain" color="neutral" onClick={() => logout()}>
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

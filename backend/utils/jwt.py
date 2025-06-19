@@ -34,17 +34,23 @@ def decode_token(token: str):
     except jwt.InvalidTokenError:
         return None  # Invalid token
 
+
+
 def jwt_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        token = request.headers.get("Authorization")
-        if not token or not token.startswith("Bearer "):
-            return jsonify({"error": "Missing or invalid token"}), 401
+        # 🍪 Get token from the cookie
+        token = request.cookies.get("auth_token")
 
-        admin_id = decode_token(token[7:])
+        if not token:
+            return jsonify({"error": "Missing authentication token"}), 401
+
+        admin_id = decode_token(token)
+
         if not admin_id:
             return jsonify({"error": "Invalid or expired token"}), 401
 
-        g.admin_id = admin_id  # ✅ store in global context
+        g.admin_id = admin_id  # 🧠 Store admin_id for use in routes
         return f(*args, **kwargs)
+
     return decorated_function

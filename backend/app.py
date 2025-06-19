@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app, 
      resources={r"/*": {"origins": "http://localhost:3000"}},
      supports_credentials=True,
-     expose_headers=["Authorization"])
+     )
 
 
 # Register Blueprints
@@ -20,4 +20,4 @@ app.register_blueprint(auth_blueprint)
 
 if __name__ == '__main__':
     schedule_daily_task()
-    app.run(debug=False, use_reloader=False)
+    app.run(debug=True, use_reloader=False)

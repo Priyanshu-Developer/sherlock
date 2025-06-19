@@ -12,10 +12,14 @@ import { Lead } from "@/utils";
 export default function DashboardPage() {
    const [leads, setLeads] = useState<Lead[]>([]);
   
+  
     useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const response = await axios.get<Lead[]>('http://localhost:5000/leads/all');
+       const response = await axios.get<Lead[]>('http://localhost:5000/leads/all', {
+        withCredentials: true, 
+      });
+
         setLeads(response.data);
        
       } catch (err) {

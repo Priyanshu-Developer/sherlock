@@ -40,17 +40,37 @@ def login():
 
         response = make_response(jsonify({
             "message": "Login successful",
-            "admin": admin.as_dict()
+            "admin" : admin.as_dict(),  # Assuming Admin model has a to_dict() method
+            
         }), 200)
-        response.set_cookie("auth_token", token, httponly=True, secure=True, samesite='Lax',max_age=86400)
-        
-        print(response.headers)
-
-
+        response.set_cookie(
+            "auth_token",
+            token,
+            httponly=True,
+            secure=False,  
+            samesite='Lax', 
+            max_age=86400,  
+            path='/'  
+        )
+        print(response)
         return response
 
     except Exception as e:
-        return jsonify({"error": f"Internal server error: {str(e)}"}), 500
+        print(f"Error during login: {str(e)}")
+        return jsonify({"error": f"Internal server error"}), 500
 
     finally:
         db.close()
+
+@auth_blueprint.route('/logout', methods=['POST'])
+def logout():
+    response = make_response(jsonify({"message": "Logged out successfully"}))
+    response.set_cookie(
+        "auth_token",
+        "",
+        max_age=0,
+        httponly=True,
+        samesite='Lax',
+        path='/'
+    )
+    return response

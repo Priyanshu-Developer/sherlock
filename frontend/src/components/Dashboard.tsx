@@ -1,7 +1,5 @@
 "use client";
 import * as React from 'react';
-import { CssVarsProvider } from '@mui/joy/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
@@ -20,6 +18,7 @@ import PersonSearchRoundedIcon from '@mui/icons-material/PersonSearchRounded';
 import Sidebar, { MenuProps } from  "@/components/Sidebar";
 import Header from '@/components/Header';
 import { usePathname } from 'next/navigation';
+
 
 const menuItems: MenuProps[] = [
   {
@@ -68,7 +67,8 @@ function formatSegment(segment: string): string {
 }
 
 export default function Dashboard({children,headChildren}: {children: React.ReactNode,headChildren?: React.ReactNode}) {
-    const pathname = usePathname(); // e.g., "/dashboard/orders"
+  
+  const pathname = usePathname(); // e.g., "/dashboard/orders"
   return (
 
       <Box sx={{ display: 'flex', minHeight: '100dvh' }}>

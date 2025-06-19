@@ -1,4 +1,4 @@
-import { Css } from "@mui/icons-material";
+import { AuthProvider } from "@/utils/AuthContext";
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -29,7 +29,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <CssVarsProvider  disableTransitionOnChange>
               <CssBaseline />
-        {children}
+              <AuthProvider>
+
+                {children}
+              </AuthProvider>
         </CssVarsProvider>
       </body>
     </html>

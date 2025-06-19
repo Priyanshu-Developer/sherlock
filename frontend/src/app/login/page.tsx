@@ -16,7 +16,7 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 import axios from 'axios';
-import { cookies } from 'next/headers';
+import { useAuth } from '@/utils/AuthContext';
 
 
 function ColorSchemeToggle(props: IconButtonProps) {
@@ -45,6 +45,7 @@ function ColorSchemeToggle(props: IconButtonProps) {
 
 
 export default function JoySignInSideTemplate() {
+  const {setAdmin } = useAuth();
 
   const [error, setError] = React.useState<string >('');
   const login = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,13 +58,21 @@ export default function JoySignInSideTemplate() {
     };
 
     try {
-      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`,
+      {
         email: formElements.email.value,
         password: formElements.password.value,
         persistent: formElements.persistent.checked,
-      });
+      },
+      {
+        withCredentials: true, 
+      }
+      );
      
-        window.location.href = '/dashboard';
+      const admin = resp.data.admin;
+      console.log(admin)
+      setAdmin(admin); 
+      window.location.href = '/dashboard'; // Redirect to home page after successful login
      
      
     } catch (error) {
@@ -120,7 +129,7 @@ export default function JoySignInSideTemplate() {
               <IconButton variant="soft" color="primary" size="sm">
                 <BadgeRoundedIcon />
               </IconButton>
-              <Typography level="title-lg">Sherlock's life</Typography>
+              <Typography level="title-lg">Sherlock&apos;s life</Typography>
             </Box>
             <ColorSchemeToggle />
           </Box>
@@ -183,7 +192,7 @@ export default function JoySignInSideTemplate() {
           </Box>
           <Box component="footer" sx={{ py: 3 }}>
             <Typography level="body-xs" sx={{ textAlign: 'center' }}>
-              © Sherlock's lifes {new Date().getFullYear()}
+              © Sherlock&apos;s lifes {new Date().getFullYear()}
             </Typography>
           </Box>
         </Box>

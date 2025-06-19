@@ -22,8 +22,12 @@ export default function AgentTable() {
   React.useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const response = await axios.get<{ data: Agent[] }>('http://localhost:5000/leads/agents');
-        setRows(response.data.data);
+
+
+        const response = await axios.get<{ data: Agent[] }>('http://localhost:5000/leads/agents',{
+          withCredentials: true, // ⬅️ This sends cookies like `auth_token`
+        });
+                setRows(response.data.data);
       } catch (err) {
         console.error("Error fetching leads:", err);
       }
