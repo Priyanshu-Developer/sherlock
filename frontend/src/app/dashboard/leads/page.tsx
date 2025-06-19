@@ -4,7 +4,7 @@ import OrderTable from "@/components/LeadsTable";
 import Snackbar from '@mui/joy/Snackbar';
 
 import { Lead } from "@/utils";
-import axios from "axios";
+import axios from "@/utils/axios";
 import { useEffect, useState } from "react";
 
 export default function LeadsPage() {

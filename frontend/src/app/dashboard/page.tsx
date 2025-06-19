@@ -4,7 +4,7 @@ import LeadsCharts from "@/components/LeadCharts";
 import AgentCharts from "@/components/AgentCharts";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "@/utils/axios";
 import { Lead } from "@/utils";
 
 

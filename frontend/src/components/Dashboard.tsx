@@ -67,44 +67,10 @@ function formatSegment(segment: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function AutoBreadcrumbs({ pathname }: { pathname: string }) {
-  const pathSegments: string[] = pathname.split("/").filter(Boolean); // removes empty strings
-
-  return (
-    <>
-      {pathSegments.map((segment: string, index: number) => {
-        const href: string = "/" + pathSegments.slice(0, index + 1).join("/");
-        const isLast: boolean = index === pathSegments.length - 1;
-
-        return isLast ? (
-          <Typography
-            key={href}
-            color="primary"
-            sx={{ fontWeight: 500, fontSize: 12 }}
-          >
-            {formatSegment(segment)}
-          </Typography>
-        ) : (
-          <Link
-            key={href}
-            underline="hover"
-            color="neutral"
-            href={href}
-            sx={{ fontSize: 12, fontWeight: 500 }}
-          >
-            {formatSegment(segment)}
-          </Link>
-        );
-      })}
-    </>
-  );
-}
-
 export default function Dashboard({children,headChildren}: {children: React.ReactNode,headChildren?: React.ReactNode}) {
     const pathname = usePathname(); // e.g., "/dashboard/orders"
   return (
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
+
       <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
         <Header />
         <Sidebar menuItems={menuItems} pathname={pathname}/>
@@ -142,7 +108,20 @@ export default function Dashboard({children,headChildren}: {children: React.Reac
               >
                 <HomeRoundedIcon />
               </Link>
-              <AutoBreadcrumbs pathname={pathname} />
+              {pathname.split('/').map((segment, index) => {
+                const href = '/' + pathname.split('/').slice(1, index + 1).join('/');
+                const isLast = index === pathname.split('/').length - 1;  
+                const label = segment.split(/[-_]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');   
+                return isLast ? (
+                  <Link key={href} underline="hover"  color="primary" href={href} level="body-sm">
+                    {formatSegment(label)}
+                  </Link>
+                ) : (
+                  <Link key={href} underline="hover"  color="neutral" href={href} level="body-sm">
+                    {formatSegment(label)}
+                  </Link>
+                );
+              })}
             </Breadcrumbs>
           </Box>
           <Box sx={{  display: 'flex',  mb: 1,  gap: 1,  flexDirection: { xs: 'column', sm: 'row' },  alignItems: { xs: 'start', sm: 'center' },  flexWrap: 'wrap',  justifyContent: 'space-between', }}  >
@@ -154,6 +133,5 @@ export default function Dashboard({children,headChildren}: {children: React.Reac
           </Box>
         </Box>
       </Box>
-    </CssVarsProvider>
   );
 }

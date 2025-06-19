@@ -5,7 +5,7 @@ import {
   Modal, ModalClose, ModalDialog, Option, Select, Sheet, Table, Typography, IconButton
 } from '@mui/joy';
 import { FilterAlt as FilterAltIcon, Search as SearchIcon } from '@mui/icons-material';
-import axios from 'axios';
+import axios from '@/utils/axios';
 
 export interface Agent {
   id: number;

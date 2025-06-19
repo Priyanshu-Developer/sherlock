@@ -12,7 +12,7 @@ import {
   pieArcLabelClasses
 } from '@mui/x-charts';
 import { Agent } from '@/utils';
-import axios from 'axios';
+import axios from '@/utils/axios';
 
 export default function LeadCharts() {
   const [agentLeads, setAgentLeads] = React.useState<Agent[]>([]);
